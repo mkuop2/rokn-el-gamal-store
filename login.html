@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ROKN EL GAMAL | تسجيل الدخول</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Cairo", sans-serif;
+            background: #fff7fa;
+            color: #33242a;
+            min-height: 100vh;
+        }
+
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background:
+                radial-gradient(circle at top right, #f7d6e2 0, transparent 35%),
+                radial-gradient(circle at bottom left, #ffeaf2 0, transparent 35%),
+                #fffaf8;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 430px;
+            background: rgba(255,255,255,.94);
+            border: 1px solid rgba(120,55,78,.10);
+            border-radius: 28px;
+            padding: 38px 30px;
+            box-shadow: 0 25px 70px rgba(91,38,57,.13);
+        }
+
+        .logo {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg,#d96b91,#b94e76);
+            color: white;
+            font-family: Georgia, serif;
+            font-size: 35px;
+            box-shadow: 0 15px 30px rgba(185,78,118,.25);
+            overflow: hidden;
+        }
+
+        .logo img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: Georgia, serif;
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #806b72;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .field { margin-bottom: 18px; }
+
+        input {
+            width: 100%;
+            height: 52px;
+            border: 1px solid #ead9df;
+            border-radius: 15px;
+            padding: 0 16px;
+            font-size: 15px;
+            outline: none;
+            transition: .2s;
+            background: white;
+        }
+
+        input:focus {
+            border-color: #d96b91;
+            box-shadow: 0 0 0 4px rgba(217,107,145,.10);
+        }
+
+        button {
+            width: 100%;
+            height: 53px;
+            border: 0;
+            border-radius: 15px;
+            background: linear-gradient(135deg,#d96b91,#b94e76);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 25px rgba(185,78,118,.20);
+        }
+
+        button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            display: none;
+            margin-top: 16px;
+            padding: 13px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .message.error {
+            display: block;
+            background: #fff0f0;
+            color: #a12d2d;
+            border: 1px solid #ffd3d3;
+        }
+
+        .message.success {
+            display: block;
+            background: #effcf4;
+            color: #21733f;
+            border: 1px solid #c9efd7;
+        }
+    </style>
+</head>
+
+<body>
+
+<section class="login-page">
+
+    <div class="login-card">
+
+        <div class="logo" id="loginLogo">R</div>
+
+        <h1 id="loginBrandName">ROKN EL GAMAL</h1>
+
+        <div class="subtitle">لوحة تحكم المتجر</div>
+
+        <form id="loginForm">
+
+            <div class="field">
+                <label>البريد الإلكتروني</label>
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="admin@example.com"
+                    required
+                >
+            </div>
+
+            <div class="field">
+                <label>كلمة المرور</label>
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="••••••••"
+                    required
+                >
+            </div>
+
+            <button id="loginButton" type="submit">
+                تسجيل الدخول
+            </button>
+
+        </form>
+
+        <div id="message" class="message"></div>
+
+    </div>
+
+</section>
+
+<script>
+
+    // =========================================
+    // SUPABASE
+    // =========================================
+
+    const SUPABASE_URL = "https://jfhnmjtafqkhoghhahxe.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_DyBXJYxvrJr0rODGn8m68Q__sOfM9gd";
+
+    const supabaseClient =
+        window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+    // =========================================
+    // ELEMENTS
+    // =========================================
+
+    const loginForm = document.getElementById("loginForm");
+    const loginButton = document.getElementById("loginButton");
+    const message = document.getElementById("message");
+
+
+    // =========================================
+    // MESSAGE
+    // =========================================
+
+    function showMessage(text, type = "error") {
+        message.textContent = text;
+        message.className = "message " + type;
+    }
+
+
+    // =========================================
+    // CHECK IF ALREADY LOGGED IN
+    // =========================================
+
+    async function checkExistingSession() {
+
+        const { data: { session } } =
+            await supabaseClient.auth.getSession();
+
+        if (!session) return;
+
+        const { data, error } =
+            await supabaseClient.rpc("check_admin");
+
+        if (!error && data && data.is_admin === true) {
+            window.location.href = "admin.html";
+        }
+    }
+
+
+    // =========================================
+    // LOGIN
+    // =========================================
+
+    loginForm.addEventListener("submit", async function(e) {
+
+        e.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        loginButton.disabled = true;
+        loginButton.textContent = "جاري تسجيل الدخول...";
+
+        const { data, error } =
+            await supabaseClient.auth.signInWithPassword({ email, password });
+
+        if (error) {
+            showMessage(error.message || "حدث خطأ أثناء تسجيل الدخول.");
+            loginButton.disabled = false;
+            loginButton.textContent = "تسجيل الدخول";
+            return;
+        }
+
+        // التحقق من صلاحية الأدمن
+        const adminCheck =
+            await supabaseClient.rpc("check_admin");
+
+        if (adminCheck.error || !adminCheck.data || adminCheck.data.is_admin !== true) {
+
+            await supabaseClient.auth.signOut();
+
+            showMessage("هذا الحساب ليس لديه صلاحية Admin.");
+
+            loginButton.disabled = false;
+            loginButton.textContent = "تسجيل الدخول";
+
+            return;
+        }
+
+        // نجاح → تحويل للوحة التحكم
+        window.location.href = "admin.html";
+    });
+
+
+    // =========================================
+    // LOAD BRAND (Optional)
+    // =========================================
+
+    async function loadBrand() {
+        try {
+            const { data, error } = await supabaseClient
+                .from("site_settings")
+                .select("site_name, logo_url")
+                .limit(1)
+                .single();
+
+            if (error) return;
+
+            if (data.site_name) {
+                document.title = data.site_name + " | تسجيل الدخول";
+
+                const brandName = document.getElementById("loginBrandName");
+                if (brandName) brandName.textContent = data.site_name;
+            }
+
+            if (data.logo_url) {
+                const logo = document.getElementById("loginLogo");
+                if (logo) {
+                    logo.innerHTML = `<img src="${data.logo_url}" alt="Logo">`;
+                }
+            }
+        } catch (error) { /* ignore */ }
+    }
+
+
+    // =========================================
+    // START
+    // =========================================
+
+    (async () => {
+        await checkExistingSession();
+        loadBrand();
+    })();
+
+</script>
+
+</body>
+</html>

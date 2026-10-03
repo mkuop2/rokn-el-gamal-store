@@ -1,0 +1,3580 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ROKN EL GAMAL STORE</title>
+
+  <meta id="seoDescription" name="description" content="ROKN EL GAMAL STORE - منتجات العناية والجمال">
+  <meta id="ogTitle" property="og:title" content="ROKN EL GAMAL STORE">
+  <meta id="ogDescription" property="og:description" content="ROKN EL GAMAL STORE - منتجات العناية والجمال">
+  <meta id="ogImage" property="og:image" content="">
+
+  <link
+    id="dynamicFavicon"
+    rel="icon"
+    type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%97%3C/text%3E%3C/svg%3E"
+  >
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&family=Almarai:wght@400;700;800&family=El+Messiri:wght@400;500;600;700&family=Changa:wght@400;500;600;700&family=Lalezar&family=Markazi+Text:wght@400;500;600;700&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&family=Reem+Kufi:wght@400;500;600;700&family=Harmattan:wght@400;700&family=Kufam:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --pink: #d96b91;
+      --pink-dark: #b94e76;
+      --pink-light: #fff0f5;
+      --rose: #f7d6e2;
+      --cream: #fffaf8;
+      --white: #ffffff;
+      --text: #33242a;
+      --muted: #806b72;
+      --gold: #c49a62;
+      --border: rgba(120, 55, 78, .10);
+      --shadow: 0 20px 60px rgba(91, 38, 57, .10);
+      --radius: 24px;
+
+      --heading-color: #33242a;
+      --product-description-color: #806b72;
+      --product-details-color: #806b72;
+      --product-price-color: #b94e76;
+      --product-old-price-color: #9b858c;
+      --button-color: #d96b91;
+      --button-text-color: #ffffff;
+      --label-color: #c49a62;
+      --font-family: "Cairo", sans-serif;
+      --base-font-size: 16px;
+      --product-title-size: 18px;
+
+      --header-height: 104px;
+      --announcement-height: 40px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-family);
+      font-size: var(--base-font-size);
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+      transition: background .3s ease, color .3s ease;
+    }
+
+    button, a { font-family: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    /* =========================
+       Site Loader
+    ========================== */
+
+    #siteLoader {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: #fffaf8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .3s ease, visibility .3s ease;
+    }
+
+    #siteLoader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .site-loader-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #d96b91;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Playfair Display", serif;
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    .site-loader-text {
+      margin-top: 14px;
+      font-family: "Playfair Display", serif;
+      font-size: 18px;
+      letter-spacing: 2px;
+      color: #33242a;
+    }
+
+    .site-loader-line {
+      width: 80px;
+      height: 2px;
+      background: #d96b91;
+      margin-top: 16px;
+      animation: loaderPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes loaderPulse {
+      0%,100% { opacity: .3; transform: scaleX(.6); }
+      50% { opacity: 1; transform: scaleX(1); }
+    }
+
+    /* =========================
+       Announcement Bar
+    ========================== */
+
+    .announcement-bar {
+      position: fixed;
+      top: var(--header-height);
+      right: 0;
+      left: 0;
+      width: 100%;
+      height: var(--announcement-height);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      background: var(--announcement-bg, #d96b91);
+      color: var(--announcement-text, #ffffff);
+      z-index: 998;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+      transition: top .3s ease;
+      direction: ltr;
+    }
+
+    .announcement-track {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      width: max-content;
+      animation: announcementTicker var(--announcement-speed, 25s) linear infinite;
+      will-change: transform;
+    }
+
+    .announcement-segment {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: var(--announcement-height);
+      color: inherit;
+      direction: rtl;
+      unicode-bidi: embed;
+    }
+
+    .announcement-item {
+      display: inline-block;
+      padding: 0 28px;
+      white-space: nowrap;
+    }
+
+    @keyframes announcementTicker {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --header-height: 85px;
+        --announcement-height: 36px;
+      }
+
+      .announcement-segment {
+        font-size: 12px;
+      }
+
+      .announcement-item {
+        padding: 0 18px;
+      }
+    }
+
+    /* =========================
+       Animation System
+    ========================== */
+
+    body.animations-disabled * {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .anim-fade,
+    .anim-slide-up,
+    .anim-reveal {
+      opacity: 0;
+      transition: opacity .7s ease, transform .7s ease;
+      will-change: opacity, transform;
+    }
+
+    .anim-fade.show,
+    .anim-reveal.show { opacity: 1; }
+
+    .anim-slide-up { transform: translateY(30px); }
+
+    .anim-slide-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    body.anim-slow .anim-fade,
+    body.anim-slow .anim-slide-up,
+    body.anim-slow .anim-reveal { transition-duration: 1.2s; }
+
+    body.anim-fast .anim-fade,
+    body.anim-fast .anim-slide-up,
+    body.anim-fast .anim-reveal { transition-duration: .35s; }
+
+    /* =========================
+       Dark Mode
+    ========================== */
+
+    body.dark-mode {
+      --cream: #171216;
+      --white: #21191e;
+      --text: #f8e9ee;
+      --muted: #c6adb6;
+      --pink-light: #39232d;
+      --border: rgba(255,255,255,.10);
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --heading-color: #f8e9ee;
+      --product-description-color: #c6adb6;
+      --product-details-color: #c6adb6;
+    }
+
+    body.dark-mode header.scrolled {
+      background: rgba(23,18,22,.88);
+      box-shadow: 0 8px 30px rgba(0,0,0,.35);
+    }
+
+    body.dark-mode .nav {
+      background: rgba(33,25,30,.7);
+      border-color: rgba(255,255,255,.08);
+    }
+
+    body.dark-mode .nav-links,
+    body.dark-mode .mobile-dropdown a { color: #d8c2ca; }
+
+    body.dark-mode .mobile-dropdown {
+      background: rgba(33,25,30,.98);
+      box-shadow: 0 20px 50px rgba(0,0,0,.5);
+    }
+
+    body.dark-mode .mobile-menu {
+      background: rgba(255,255,255,.1);
+      color: white;
+    }
+
+    body.dark-mode .hero-product::before { opacity: .25; }
+
+    body.dark-mode .hero-card {
+      background: rgba(33,25,30,.7);
+      border-color: rgba(255,255,255,.08);
+    }
+
+    body.dark-mode .hero-product-image {
+      background: linear-gradient(145deg, #39232d, #2a1a20);
+    }
+
+    body.dark-mode .hero-product-image img { mix-blend-mode: normal; }
+
+    body.dark-mode .floating-badge,
+    body.dark-mode .floating-heart {
+      background: rgba(33,25,30,.9);
+      color: var(--pink);
+      box-shadow: 0 15px 35px rgba(0,0,0,.35);
+    }
+
+    body.dark-mode .trust-item { background: rgba(33,25,30,.6); }
+
+    body.dark-mode .trust-item.active {
+      background: linear-gradient(145deg, #39232d, #2a1a20);
+      border-color: rgba(217,107,145,.35);
+    }
+
+    body.dark-mode .btn-light {
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      border-color: rgba(255,255,255,.12);
+    }
+
+    body.dark-mode .products-section,
+    body.dark-mode .offers-section {
+      background: rgba(33,25,30,.4);
+      border-color: rgba(255,255,255,.05);
+    }
+
+    body.dark-mode .product-card,
+    body.dark-mode .featured-card,
+    body.dark-mode .offer-card {
+      background: var(--white);
+      border-color: rgba(255,255,255,.08);
+    }
+
+    body.dark-mode .product-image,
+    body.dark-mode .featured-image,
+    body.dark-mode .offer-image,
+    body.dark-mode .modal-image { background: #2a1a20; }
+
+    body.dark-mode .product-modal { background: var(--cream); }
+
+    body.dark-mode .modal-close {
+      background: rgba(255,255,255,.1);
+      color: var(--text);
+    }
+
+    body.dark-mode .modal-features li {
+      color: #c6adb6;
+      border-color: rgba(255,255,255,.06);
+    }
+
+    body.dark-mode .page-bg .blob { opacity: .15; }
+
+    body.dark-mode footer { border-color: rgba(255,255,255,.08); }
+
+    body.dark-mode .splash-screen {
+      background:
+        radial-gradient(circle at 30% 40%, rgba(120, 60, 90, .35), transparent 45%),
+        radial-gradient(circle at 70% 60%, rgba(100, 50, 70, .3), transparent 40%),
+        linear-gradient(145deg, #1a1216, #21191e, #171216);
+    }
+
+    /* =========================
+       Splash Screen
+    ========================== */
+
+    .splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(255, 220, 235, .55), transparent 45%),
+        radial-gradient(circle at 70% 60%, rgba(255, 200, 215, .4), transparent 40%),
+        linear-gradient(145deg, #fff5f9, #fce4ee, #f8d3e2);
+      transition: opacity .5s ease, visibility .5s ease;
+    }
+
+    .splash-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .splash-logo {
+      width: 100px;
+      height: 100px;
+      display: grid;
+      place-items: center;
+      border-radius: 30px;
+      background: linear-gradient(145deg, #ef9db8, #bd547c);
+      color: white;
+      font-size: 48px;
+      font-weight: 800;
+      box-shadow: 0 25px 60px rgba(190, 79, 119, .35);
+      animation: splashPulse 2s ease-in-out infinite;
+      overflow: hidden;
+    }
+
+    .splash-logo img { width: 100%; height: 100%; object-fit: cover; }
+
+    @keyframes splashPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    .splash-title {
+      font-family: "Playfair Display", serif;
+      font-size: 36px;
+      color: var(--heading-color);
+      text-align: center;
+      line-height: 1.2;
+      animation: fadeUp .9s .3s ease both;
+    }
+
+    .splash-title span {
+      display: block;
+      color: var(--pink);
+      font-size: 22px;
+      margin-top: 6px;
+      letter-spacing: 3px;
+      direction: ltr;
+      font-weight: 700;
+    }
+
+    .splash-sub {
+      color: #a07a8a;
+      font-size: 14px;
+      animation: fadeUp .9s .6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .splash-enter-btn {
+      margin-top: 10px;
+      padding: 16px 42px;
+      border: 0;
+      border-radius: 18px;
+      background: var(--button-color);
+      color: var(--button-text-color);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 15px 35px rgba(194, 79, 120, .3);
+      transition: .3s;
+      animation: fadeUp .9s .9s ease both;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .splash-enter-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 45px rgba(194, 79, 120, .4);
+    }
+
+    .splash-music-icon { font-size: 20px; }
+
+    /* =========================
+       Music Toggle
+    ========================== */
+
+    .music-toggle {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 1500;
+      width: 52px;
+      height: 52px;
+      border: 0;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #ef9db8, #bd547c);
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 12px 30px rgba(190, 79, 119, .35);
+      transition: transform .3s, opacity .4s, box-shadow .3s;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .music-toggle.visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .music-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 15px 35px rgba(190, 79, 119, .45);
+    }
+
+    .music-toggle.playing { animation: musicPulse 1.6s ease-in-out infinite; }
+
+    .music-toggle.playing::after {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid rgba(217, 107, 145, .5);
+      animation: ringPulse 1.6s ease-out infinite;
+    }
+
+    @keyframes musicPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    @keyframes ringPulse {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    .music-toggle.muted {
+      background: linear-gradient(145deg, #b9b0b4, #8e8189);
+      box-shadow: 0 10px 25px rgba(80, 60, 70, .25);
+      animation: none;
+    }
+
+    .music-toggle.muted::after { display: none; }
+
+    .music-toggle .music-icon-off { display: none; position: relative; }
+
+    .music-toggle .music-icon-off::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -3px; right: -3px;
+      height: 2px;
+      background: white;
+      transform: rotate(-45deg);
+      border-radius: 2px;
+    }
+
+    .music-toggle.muted .music-icon-on { display: none; }
+    .music-toggle.muted .music-icon-off { display: inline-block; }
+
+    @media (max-width: 500px) {
+      .music-toggle {
+        width: 46px;
+        height: 46px;
+        font-size: 19px;
+        bottom: 18px;
+        left: 18px;
+      }
+    }
+
+    /* =========================
+       Background
+    ========================== */
+
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -10;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: .35;
+      transition: opacity .3s ease;
+    }
+
+    .blob.one { width: 420px; height: 420px; background: #f5b7cc; top: -160px; right: -100px; }
+    .blob.two { width: 360px; height: 360px; background: #ead0b1; top: 40%; left: -180px; }
+    .blob.three { width: 300px; height: 300px; background: #f3c8d8; bottom: -100px; right: 20%; }
+
+    /* =========================
+       Header
+    ========================== */
+
+    header {
+      position: fixed;
+      top: 0; right: 0; left: 0;
+      z-index: 1000;
+      padding: 18px 5%;
+      transition: .3s;
+    }
+
+    header.scrolled {
+      background: rgba(255, 250, 248, .88);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 8px 30px rgba(70, 30, 45, .07);
+    }
+
+    .nav {
+      position: relative;
+      max-width: 1250px;
+      margin: auto;
+      height: 68px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, .58);
+      border: 1px solid rgba(255,255,255,.7);
+      border-radius: 22px;
+      backdrop-filter: blur(20px);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+
+    .logo-mark {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #ef9db8, #bd547c);
+      color: white;
+      box-shadow: 0 10px 25px rgba(190, 79, 119, .25);
+      font-size: 19px;
+      overflow: hidden;
+    }
+
+    .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+
+    .logo-text { line-height: 1.05; }
+
+    .logo-text strong { display: block; font-size: 15px; }
+
+    .logo-text span {
+      color: var(--pink-dark);
+      font-size: 9px;
+      letter-spacing: 2px;
+      direction: ltr;
+      display: block;
+      margin-top: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      color: #674e57;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a { position: relative; }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: -7px;
+      width: 0;
+      height: 2px;
+      background: var(--pink);
+      transition: .3s;
+    }
+
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-tiktok {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 17px;
+      color: white;
+      background: #171317;
+      border-radius: 13px;
+      font-size: 13px;
+      transition: .3s;
+    }
+
+    .nav-tiktok:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0,0,0,.16);
+    }
+
+    .mobile-menu {
+      display: none;
+      width: 43px;
+      height: 43px;
+      border: 0;
+      background: #fff;
+      border-radius: 13px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .mobile-dropdown {
+      position: absolute;
+      top: 78px;
+      right: 20px; left: 20px;
+      padding: 20px;
+      display: none;
+      flex-direction: column;
+      gap: 18px;
+      background: rgba(255,255,255,.98);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(60,30,40,.15);
+      z-index: 999;
+    }
+
+    .mobile-dropdown.open { display: flex; }
+
+    .mobile-dropdown a {
+      font-size: 15px;
+      font-weight: 600;
+      color: #674e57;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(120,55,78,.06);
+    }
+
+    .mobile-dropdown a:last-child { border-bottom: 0; }
+
+    /* =========================
+       Hero
+    ========================== */
+
+    .hero {
+      max-width: 1250px;
+      min-height: 780px;
+      margin: auto;
+      padding: calc(var(--header-height) + var(--announcement-height) + 50px) 5% 80px;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 60px;
+      transition: padding .3s ease;
+    }
+
+    body.no-announcement .hero {
+      padding-top: calc(var(--header-height) + 50px);
+    }
+
+    .hero-content { animation: heroIn .9s ease both; }
+
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 13px;
+      border-radius: 30px;
+      background: rgba(221, 112, 149, .10);
+      color: var(--pink-dark);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 23px;
+    }
+
+    .eyebrow::before { content: "✦"; color: var(--gold); }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(48px, 6vw, 78px);
+      line-height: 1.05;
+      font-weight: 700;
+      color: var(--heading-color);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span { display: block; color: var(--pink); }
+
+    .hero-description {
+      max-width: 560px;
+      color: var(--product-description-color);
+      font-size: 16px;
+      line-height: 2;
+      margin-bottom: 31px;
+    }
+
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .btn {
+      min-height: 50px;
+      padding: 0 23px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 9px;
+      border-radius: 15px;
+      border: 1px solid transparent;
+      font-size: 14px;
+      font-weight: 700;
+      transition: .3s;
+    }
+
+    .btn-primary {
+      color: var(--button-text-color);
+      background: var(--button-color);
+      box-shadow: 0 13px 28px rgba(194, 79, 120, .23);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 35px rgba(194, 79, 120, .30);
+    }
+
+    .btn-light {
+      color: var(--text);
+      background: white;
+      border-color: var(--border);
+    }
+
+    .btn-light:hover {
+      transform: translateY(-3px);
+      border-color: rgba(217,107,145,.3);
+    }
+
+    /* =========================
+       Hero Product
+    ========================== */
+
+    .hero-product {
+      position: relative;
+      min-height: 540px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-product::before {
+      content: "";
+      position: absolute;
+      width: 430px;
+      height: 430px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #f4cad9, #fbe9ef 55%, transparent 70%);
+      animation: pulse 5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      50% { transform: scale(1.07); opacity: .7; }
+    }
+
+    .hero-card {
+      position: relative;
+      width: min(420px, 90%);
+      padding: 20px;
+      background: rgba(255,255,255,.66);
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      transform: rotate(2deg);
+      transition: .5s;
+      z-index: 2;
+    }
+
+    .hero-card:hover { transform: rotate(0deg) translateY(-7px); }
+
+    .hero-product-image {
+      width: 100%;
+      aspect-ratio: 1 / 1.05;
+      border-radius: 25px;
+      overflow: hidden;
+      background: linear-gradient(145deg, #f8dce6, #f4bccc);
+      position: relative;
+    }
+
+    .hero-product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      mix-blend-mode: multiply;
+      transition: transform .7s;
+    }
+
+    .hero-card:hover img { transform: scale(1.05); }
+
+    .hero-product-info { padding: 19px 6px 4px; }
+
+    .hero-product-info small {
+      color: var(--label-color);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .hero-product-info h3 {
+      font-family: "Playfair Display", serif;
+      font-size: var(--product-title-size);
+      color: var(--heading-color);
+      margin: 4px 0 6px;
+    }
+
+    .hero-price { display: flex; align-items: center; gap: 10px; }
+
+    .hero-price strong { color: var(--product-price-color); font-size: 21px; }
+    .hero-price del { color: var(--product-old-price-color); font-size: 13px; }
+
+    .floating-badge {
+      position: absolute;
+      top: 35px;
+      right: -23px;
+      z-index: 5;
+      padding: 13px 16px;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 15px 35px rgba(90,40,58,.14);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--pink-dark);
+      animation: float 3.5s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      50% { transform: translateY(-9px); }
+    }
+
+    .floating-heart {
+      position: absolute;
+      left: -25px;
+      bottom: 90px;
+      z-index: 5;
+      width: 62px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      border-radius: 20px;
+      background: rgba(255,255,255,.8);
+      box-shadow: 0 15px 35px rgba(90,40,58,.12);
+      color: var(--pink);
+      font-size: 26px;
+      animation: float 4s 1s ease-in-out infinite;
+    }
+
+    /* =========================
+       Trust
+    ========================== */
+
+    .trust {
+      max-width: 1120px;
+      margin: 0 auto 90px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .trust-item {
+      padding: 22px;
+      background: rgba(255,255,255,.7);
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      text-align: center;
+      cursor: pointer;
+      transition: .35s;
+      user-select: none;
+      position: relative;
+    }
+
+    .trust-item.active {
+      background: linear-gradient(145deg, #fff0f5, #fce4ee);
+      border-color: rgba(217, 107, 145, .35);
+      box-shadow: 0 15px 40px rgba(190, 79, 119, .15);
+      transform: translateY(-4px);
+    }
+
+    .trust-item.active .trust-icon {
+      transform: scale(1.2);
+      color: var(--pink-dark);
+    }
+
+    .trust-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+      transition: .35s;
+      display: inline-block;
+    }
+
+    .trust-item strong {
+      display: block;
+      font-size: 14px;
+      color: var(--heading-color);
+      margin-bottom: 3px;
+    }
+
+    .trust-item span {
+      font-size: 11px;
+      color: var(--product-description-color);
+    }
+
+    /* =========================
+       Section
+    ========================== */
+
+    .section {
+      max-width: 1250px;
+      margin: auto;
+      padding: 85px 5%;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 35px;
+    }
+
+    .section-title small {
+      display: block;
+      color: var(--label-color);
+      font-weight: 800;
+      font-size: 11px;
+      margin-bottom: 7px;
+      letter-spacing: .5px;
+    }
+
+    .section-title h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(32px, 4vw, 48px);
+      color: var(--heading-color);
+    }
+
+    .section-title p {
+      margin-top: 7px;
+      color: var(--product-description-color);
+      font-size: 13px;
+    }
+
+    .view-all {
+      color: var(--pink-dark);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    /* =========================
+       Featured Slider
+    ========================== */
+
+    .featured-wrapper { position: relative; }
+
+    .featured-track {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 8px 4px 20px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .featured-track::-webkit-scrollbar { display: none; }
+
+    .featured-card {
+      min-width: 310px;
+      scroll-snap-align: start;
+      padding: 12px;
+      border-radius: 26px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 35px rgba(83,40,55,.06);
+      cursor: pointer;
+      transition: .4s;
+      position: relative;
+    }
+
+    .featured-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 45px rgba(83,40,55,.12);
+    }
+
+    .featured-image {
+      height: 300px;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      background: #f8e3e9;
+    }
+
+    .featured-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: .5s;
+    }
+
+    .featured-card:hover img { transform: scale(1.05); }
+
+    .featured-info { padding: 17px 7px 5px; }
+
+    .featured-info h3 {
+      font-family: "Playfair Display", serif;
+      font-size: var(--product-title-size);
+      color: var(--heading-color);
+      margin-bottom: 5px;
+    }
+
+    .featured-info p {
+      color: var(--product-description-color);
+      font-size: 11px;
+      line-height: 1.8;
+      min-height: 40px;
+    }
+
+    .product-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .price strong { color: var(--product-price-color); font-size: 18px; }
+    .price del { display: block; color: var(--product-old-price-color); font-size: 10px; }
+
+    .order-btn {
+      padding: 10px 13px;
+      border: 0;
+      border-radius: 12px;
+      color: var(--button-text-color);
+      background: var(--button-color);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .3s;
+      white-space: nowrap;
+    }
+
+    .order-btn:hover {
+      background: var(--pink-dark);
+      transform: translateY(-2px);
+    }
+
+    /* =========================
+       Offers Section
+    ========================== */
+
+    .offers-section {
+      background: rgba(255,255,255,.45);
+      border-top: 1px solid rgba(120,55,78,.05);
+      border-bottom: 1px solid rgba(120,55,78,.05);
+    }
+
+    .offers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .offer-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: .3s;
+    }
+
+    .offer-card:hover { transform: translateY(-6px); }
+
+    .offer-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #f7e0e7;
+    }
+
+    .offer-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: .5s;
+    }
+
+    .offer-card:hover .offer-image img { transform: scale(1.05); }
+
+    .offer-info { padding: 20px; }
+
+    .offer-info h3 {
+      color: var(--heading-color);
+      margin: 0 0 8px;
+      font-family: "Playfair Display", serif;
+      font-size: var(--product-title-size);
+    }
+
+    .offer-info p {
+      color: var(--product-description-color);
+      margin: 0 0 15px;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .offer-price {
+      color: var(--product-price-color);
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 768px) {
+      .offers-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .offer-info { padding: 14px; }
+      .offer-info h3 { font-size: 15px; }
+      .offer-info p { font-size: 12px; }
+      .offer-price { font-size: 16px; }
+    }
+
+    /* =========================
+       Products Grid
+    ========================== */
+
+    .products-section {
+      background: rgba(255,255,255,.45);
+      border-top: 1px solid rgba(120,55,78,.05);
+      border-bottom: 1px solid rgba(120,55,78,.05);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      overflow: hidden;
+      transition: .4s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 45px rgba(83,40,55,.11);
+    }
+
+    .product-image {
+      height: 285px;
+      overflow: hidden;
+      position: relative;
+      background: #f7e0e7;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: .55s;
+    }
+
+    .product-card:hover .product-image img { transform: scale(1.055); }
+
+    .product-info { padding: 16px; }
+
+    .product-category { color: var(--label-color); font-size: 9px; font-weight: 800; }
+
+    .product-info h3 {
+      font-family: "Playfair Display", serif;
+      font-size: var(--product-title-size);
+      color: var(--heading-color);
+      margin: 3px 0 5px;
+    }
+
+    .product-info p {
+      color: var(--product-description-color);
+      font-size: 10px;
+      line-height: 1.7;
+      min-height: 35px;
+    }
+
+    /* =========================
+       Product Modal
+    ========================== */
+
+    .product-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(40, 20, 30, .55);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+
+    .product-modal-overlay.open { opacity: 1; visibility: visible; }
+
+    .product-modal {
+      position: relative;
+      width: min(900px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--cream);
+      border-radius: 30px;
+      box-shadow: 0 40px 100px rgba(50, 20, 35, .35);
+      transform: scale(.92) translateY(20px);
+      transition: transform .45s cubic-bezier(.2, .8, .2, 1);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .product-modal-overlay.open .product-modal { transform: scale(1) translateY(0); }
+
+    .product-modal::-webkit-scrollbar { width: 6px; }
+    .product-modal::-webkit-scrollbar-thumb { background: var(--rose); border-radius: 10px; }
+
+    .modal-image {
+      position: relative;
+      min-height: 100%;
+      background: #f8e3e9;
+      overflow: hidden;
+    }
+
+    .modal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      min-height: 400px;
+    }
+
+    .modal-body {
+      padding: 45px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .modal-category {
+      color: var(--label-color);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .modal-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 3.5vw, 40px);
+      line-height: 1.15;
+      color: var(--heading-color);
+      margin-bottom: 14px;
+    }
+
+    .modal-desc {
+      color: var(--product-description-color);
+      font-size: 14px;
+      line-height: 2;
+      margin-bottom: 22px;
+    }
+
+    .modal-features-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--label-color);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .modal-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 25px;
+    }
+
+    .modal-features li {
+      font-size: 13px;
+      color: var(--product-details-color);
+      padding: 7px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px dashed rgba(120, 55, 78, .08);
+    }
+
+    .modal-features li::before {
+      content: "✦";
+      color: var(--pink);
+      font-size: 11px;
+    }
+
+    .modal-price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .modal-price {
+      color: var(--product-price-color);
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .modal-price del {
+      display: block;
+      color: var(--product-old-price-color);
+      font-size: 14px;
+    }
+
+    .modal-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .modal-order-btn {
+      padding: 14px 26px;
+      border: 0;
+      border-radius: 15px;
+      color: var(--button-text-color);
+      background: var(--button-color);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 13px 28px rgba(194, 79, 120, .25);
+      transition: .3s;
+      display: inline-block;
+    }
+
+    .modal-order-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 35px rgba(194, 79, 120, .35);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      z-index: 10;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      font-size: 20px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 22px rgba(60, 30, 45, .15);
+      transition: .3s;
+    }
+
+    .modal-close:hover {
+      transform: rotate(90deg);
+      background: var(--pink);
+      color: white;
+    }
+
+    /* =========================
+       TikTok CTA
+    ========================== */
+
+    .tiktok-section {
+      max-width: 1150px;
+      margin: 90px auto;
+      padding: 0 5%;
+    }
+
+    .tiktok-box {
+      position: relative;
+      overflow: hidden;
+      min-height: 300px;
+      padding: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      border-radius: 35px;
+      background:
+        radial-gradient(circle at 80% 30%, rgba(255,177,205,.22), transparent 30%),
+        linear-gradient(135deg, #241a20, #3a222d);
+      color: white;
+      box-shadow: 0 25px 65px rgba(45,24,33,.20);
+    }
+
+    .tiktok-box::before {
+      content: "♡";
+      position: absolute;
+      left: 8%;
+      top: -50px;
+      font-size: 250px;
+      color: rgba(255,255,255,.025);
+      transform: rotate(-15deg);
+    }
+
+    .tiktok-content { position: relative; z-index: 2; }
+
+    .tiktok-content small { color: #ef9fbb; font-weight: 800; }
+
+    .tiktok-content h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(32px, 5vw, 52px);
+      margin: 10px 0;
+    }
+
+    .tiktok-content p {
+      color: #d6c5cb;
+      font-size: 13px;
+      max-width: 550px;
+      line-height: 2;
+    }
+
+    .tiktok-button {
+      position: relative;
+      z-index: 2;
+      min-width: 190px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 15px;
+      background: white;
+      color: #21191d;
+      font-weight: 800;
+      transition: .3s;
+    }
+
+    .tiktok-button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(0,0,0,.25);
+    }
+
+    /* =========================
+       Footer
+    ========================== */
+
+    footer {
+      padding: 60px 5% 25px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      max-width: 1150px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand { max-width: 400px; }
+
+    .footer-brand h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+      color: var(--heading-color);
+      margin-bottom: 8px;
+    }
+
+    .footer-brand p {
+      color: var(--product-description-color);
+      font-size: 11px;
+      line-height: 2;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--pink-light);
+      color: var(--pink-dark);
+      transition: .3s;
+    }
+
+    .footer-social a:hover {
+      background: var(--button-color);
+      color: var(--button-text-color);
+      transform: translateY(-2px);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+      font-size: 12px;
+      color: var(--product-description-color);
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom {
+      max-width: 1150px;
+      margin: 35px auto 0;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      color: var(--product-description-color);
+      font-size: 10px;
+      text-align: center;
+    }
+
+    /* =========================
+       Loading Skeleton
+    ========================== */
+
+    .loading-skeleton {
+      background: linear-gradient(90deg, #f7e0e7 25%, #fceef3 50%, #f7e0e7 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* =========================
+       Maintenance Page
+    ========================== */
+
+    .maintenance-page {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: var(--cream, #fffaf8);
+      text-align: center;
+    }
+
+    .maintenance-page.active { display: flex; }
+
+    .maintenance-box {
+      width: min(520px, 100%);
+      padding: 45px 30px;
+      border-radius: 28px;
+      background: var(--white, #ffffff);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .maintenance-icon {
+      width: 78px;
+      height: 78px;
+      margin: 0 auto 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--pink-light, #fff0f5);
+      font-size: 32px;
+    }
+
+    .maintenance-small {
+      margin-bottom: 12px;
+      color: var(--label-color, #c49a62);
+      font-size: 12px;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+
+    .maintenance-box h1 {
+      margin: 0 0 15px;
+      color: var(--heading-color, #33242a);
+      font-size: 32px;
+    }
+
+    .maintenance-box p {
+      margin: 0;
+      color: var(--product-description-color, #806b72);
+      line-height: 2;
+      font-size: 16px;
+    }
+
+    .maintenance-line {
+      width: 70px;
+      height: 3px;
+      margin: 25px auto 18px;
+      border-radius: 10px;
+      background: var(--pink, #d96b91);
+    }
+
+    .maintenance-box span {
+      color: var(--muted, #806b72);
+      font-size: 14px;
+    }
+
+    /* =========================
+       Responsive
+    ========================== */
+
+    @media (max-width: 1050px) {
+      .products-grid { grid-template-columns: repeat(3, 1fr); }
+      .offers-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero { gap: 30px; }
+    }
+
+    @media (max-width: 800px) {
+      header { padding: 12px 4%; }
+      .nav { height: 61px; }
+      .nav-links, .nav-tiktok { display: none; }
+      .mobile-menu { display: block; }
+      .mobile-dropdown { top: 72px; }
+
+      .hero {
+        min-height: auto;
+        padding-top: calc(var(--header-height) + var(--announcement-height) + 50px);
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 20px;
+      }
+
+      body.no-announcement .hero {
+        padding-top: calc(var(--header-height) + 50px);
+      }
+
+      .hero-description { margin-left: auto; margin-right: auto; }
+      .hero-actions { justify-content: center; }
+      .hero-product { min-height: 500px; }
+      .floating-badge { right: 0; }
+      .floating-heart { left: 0; }
+
+      .trust {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin-bottom: 30px;
+      }
+
+      .section { padding-top: 60px; padding-bottom: 60px; }
+
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .tiktok-box {
+        padding: 40px 25px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-inner { flex-direction: column; }
+
+      .splash-title { font-size: 28px; }
+      .splash-logo { width: 80px; height: 80px; font-size: 38px; }
+
+      .product-modal { grid-template-columns: 1fr; }
+      .modal-image img { min-height: 280px; height: 280px; }
+      .modal-body { padding: 30px 25px; }
+    }
+
+    @media (max-width: 500px) {
+      .logo-text strong { font-size: 13px; }
+      .logo-mark { width: 39px; height: 39px; }
+      .hero h1 { font-size: 47px; }
+      .hero-description { font-size: 13px; }
+      .hero-product { min-height: 430px; }
+      .hero-card { width: 92%; }
+      .hero-product::before { width: 340px; height: 340px; }
+
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .product-image { height: 210px; }
+      .product-info { padding: 12px; }
+      .product-info h3 { font-size: 15px; }
+      .product-info p { font-size: 9px; }
+      .product-bottom { align-items: stretch; flex-direction: column; }
+      .order-btn { width: 100%; }
+
+      .section-head { align-items: flex-start; flex-direction: column; }
+      .featured-card { min-width: 280px; }
+      .featured-image { height: 260px; }
+      .tiktok-section { margin: 50px auto; }
+      .tiktok-content h2 { font-size: 34px; }
+      .footer-links { flex-wrap: wrap; }
+
+      .splash-title { font-size: 24px; }
+      .splash-title span { font-size: 16px; }
+      .splash-enter-btn { padding: 14px 32px; font-size: 14px; }
+
+      .modal-price-row { flex-direction: column; align-items: stretch; }
+      .modal-actions { justify-content: center; }
+      .modal-order-btn { width: 100%; text-align: center; }
+    }
+
+    @media (max-width: 768px) {
+      body { overflow-x: hidden; }
+
+      header { padding: 10px 14px; }
+
+      .nav-links {
+        gap: 10px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .nav-links::-webkit-scrollbar { display: none; }
+
+      .nav-links a {
+        white-space: nowrap;
+        font-size: 13px;
+      }
+
+      .hero {
+        padding: calc(var(--header-height) + var(--announcement-height) + 40px) 16px 40px;
+      }
+
+      body.no-announcement .hero {
+        padding: calc(var(--header-height) + 40px) 16px 40px;
+      }
+
+      .hero-content { width: 100%; }
+
+      .hero h1 {
+        font-size: clamp(38px, 11vw, 58px);
+        line-height: 1.1;
+      }
+
+      .hero-product {
+        width: 100%;
+        margin-top: 30px;
+      }
+
+      .hero-card { width: 100%; }
+
+      .trust {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 20px 16px;
+      }
+
+      .trust-item { width: 100%; }
+
+      .featured-track {
+        overflow-x: auto;
+        display: flex;
+        gap: 12px;
+        scrollbar-width: none;
+      }
+
+      .featured-track::-webkit-scrollbar { display: none; }
+
+      .featured-card { min-width: 220px; }
+
+      .product-modal {
+        width: calc(100% - 24px);
+        max-height: 90vh;
+        overflow-y: auto;
+        border-radius: 22px;
+      }
+
+      .modal-image img {
+        max-height: 330px;
+        object-fit: cover;
+      }
+
+      .tiktok-section {
+        margin: 30px 14px;
+        padding: 35px 20px;
+      }
+
+      footer { padding: 35px 18px 25px; }
+
+      .footer-links {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .footer-social {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= SITE LOADER ================= -->
+
+  <div id="siteLoader">
+      <div class="site-loader-logo">R</div>
+      <div class="site-loader-text">ROKN EL GAMAL</div>
+      <div class="site-loader-line"></div>
+  </div>
+
+
+  <!-- ================= STORE MUSIC ================= -->
+
+  <audio
+    id="storeMusic"
+    src="music/store-music.mp3"
+    loop
+    preload="none">
+  </audio>
+
+
+  <!-- ================= MAINTENANCE PAGE ================= -->
+
+  <div id="maintenancePage" class="maintenance-page">
+
+    <div class="maintenance-box">
+
+      <div class="maintenance-icon">🔧</div>
+
+      <div class="maintenance-small">
+        <span data-site-name>ROKN EL GAMAL</span> STORE
+      </div>
+
+      <h1>الموقع تحت الصيانة</h1>
+
+      <p>
+        نقوم حاليًا بإجراء بعض التحسينات
+        والتحديثات على المتجر.
+        <br>
+        سنعود إليك قريبًا 🤍
+      </p>
+
+      <div class="maintenance-line"></div>
+
+      <span>شكرًا لصبرك وتفهمك</span>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= SPLASH SCREEN ================= -->
+
+  <div class="splash-screen" id="splashScreen">
+
+    <div class="splash-logo" id="splashLogo">R</div>
+
+    <h1 class="splash-title">
+      <span data-site-name>ROKN EL GAMAL</span>
+      <span>BEAUTY STORE</span>
+    </h1>
+
+    <p class="splash-sub">جمالك يبدأ من هنا ✦</p>
+
+    <button class="splash-enter-btn" id="enterBtn">
+      <span class="splash-music-icon">♪</span>
+      ادخلي المتجر
+    </button>
+
+  </div>
+
+
+  <!-- ================= MUSIC TOGGLE BUTTON ================= -->
+
+  <button class="music-toggle" id="musicToggle" aria-label="تشغيل/إيقاف الموسيقى">
+    <span class="music-icon-on">♪</span>
+    <span class="music-icon-off">♪</span>
+  </button>
+
+
+  <div class="page-bg">
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+    <div class="blob three"></div>
+  </div>
+
+  <!-- ================= HEADER ================= -->
+
+  <header id="header">
+    <nav class="nav">
+
+      <a href="#" class="logo">
+        <div class="logo-mark" data-site-logo-wrap>
+          <img
+            data-site-logo
+            id="navLogoImg"
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💗%3C/text%3E%3C/svg%3E"
+            alt="Logo"
+            style="display:none;"
+          >
+          <span id="navLogoLetter">R</span>
+        </div>
+
+        <div class="logo-text">
+          <strong data-site-name>ROKN EL GAMAL</strong>
+          <span>BEAUTY STORE</span>
+        </div>
+      </a>
+
+      <div class="nav-links">
+        <a href="#home">الرئيسية</a>
+        <a href="#featured">المميز</a>
+        <a href="#offers">العروض</a>
+        <a href="#products">المنتجات</a>
+      </div>
+
+      <a
+        class="nav-tiktok"
+        href="https://www.tiktok.com/"
+        data-social="tiktok"
+        target="_blank"
+        rel="noopener"
+      >
+        TikTok
+        <span>↗</span>
+      </a>
+
+      <button class="mobile-menu" aria-label="القائمة" id="mobileMenuBtn">
+        ☰
+      </button>
+
+      <div class="mobile-dropdown" id="mobileDropdown">
+        <a href="#home">الرئيسية</a>
+        <a href="#featured">المميز</a>
+        <a href="#offers">العروض</a>
+        <a href="#products">المنتجات</a>
+        <a href="https://www.tiktok.com/" data-social="tiktok" target="_blank" rel="noopener">TikTok ↗</a>
+      </div>
+
+    </nav>
+  </header>
+
+
+  <!-- ================= ANNOUNCEMENT BAR ================= -->
+
+  <div
+    id="announcementBar"
+    class="announcement-bar"
+    style="display:none;"
+  >
+    <div
+      class="announcement-track"
+      id="announcementTrack"
+    ></div>
+  </div>
+
+
+  <!-- ================= HERO ================= -->
+
+  <main>
+
+    <section class="hero" id="heroSection">
+
+      <div class="hero-content">
+
+        <div class="eyebrow">
+          جمالك يبدأ من هنا
+        </div>
+
+        <h1>
+          عناية
+          <span>تليق بكِ</span>
+        </h1>
+
+        <p class="hero-description">
+          اكتشفي مجموعة مختارة من منتجات العناية والجمال
+          المصممة لتضيف لمسة من النعومة والجمال إلى روتينك اليومي.
+        </p>
+
+        <div class="hero-actions">
+
+          <a href="#products" class="btn btn-primary">
+            اكتشفي المنتجات
+            <span>←</span>
+          </a>
+
+          <a
+            href="https://www.tiktok.com/"
+            data-social="tiktok"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-light"
+          >
+            تابعي متجرنا على TikTok
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="hero-product" id="heroProductContainer">
+
+        <div class="hero-card">
+
+          <div class="hero-product-image">
+            <img
+              id="heroProductImage"
+              src="https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=900&q=85"
+              alt="منتج عناية بالبشرة"
+            >
+          </div>
+
+          <div class="hero-product-info">
+
+            <small id="heroProductLabel">FEATURED PRODUCT</small>
+
+            <h3 id="heroProductName">مجموعة العناية اليومية</h3>
+
+            <div class="hero-price" id="heroProductPrice">
+              <strong>129 ر.س</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="floating-badge" id="heroFloatingBadge">
+          ✦ الأكثر طلبًا
+        </div>
+
+        <div class="floating-heart" id="heroFloatingHeart">
+          ♡
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= TRUST ================= -->
+
+    <section class="trust" id="trustSection">
+
+      <div class="trust-item" data-trust>
+        <div class="trust-icon" id="trust1Icon">♡</div>
+        <div>
+          <strong id="trust1Title">منتجات مختارة</strong>
+          <span id="trust1Text">اختيارات بعناية لكِ</span>
+        </div>
+      </div>
+
+      <div class="trust-item" data-trust>
+        <div class="trust-icon" id="trust2Icon">✦</div>
+        <div>
+          <strong id="trust2Title">جودة نهتم بها</strong>
+          <span id="trust2Text">تفاصيل صغيرة تصنع الفرق</span>
+        </div>
+      </div>
+
+      <div class="trust-item" data-trust>
+        <div class="trust-icon" id="trust3Icon">✓</div>
+        <div>
+          <strong id="trust3Title">خدمة موثوقة</strong>
+          <span id="trust3Text">نهتم بتجربتك معنا</span>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ================= FEATURED ================= -->
+
+    <section class="section" id="featuredSection">
+
+      <div class="section-head">
+
+        <div class="section-title">
+          <small>اختياراتنا لكِ</small>
+          <h2>منتجات مميزة</h2>
+          <p>مجموعة من المنتجات التي تستحق التجربة.</p>
+        </div>
+
+        <a href="#products" class="view-all">مشاهدة الكل ←</a>
+
+      </div>
+
+
+      <div class="featured-wrapper">
+
+        <div class="featured-track" id="featuredTrack">
+          <div class="loading-skeleton" style="min-width:310px;height:400px;border-radius:26px;"></div>
+          <div class="loading-skeleton" style="min-width:310px;height:400px;border-radius:26px;"></div>
+          <div class="loading-skeleton" style="min-width:310px;height:400px;border-radius:26px;"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= OFFERS ================= -->
+
+    <section class="offers-section" id="offersSection" style="display:none;">
+
+      <div class="section">
+
+        <div class="section-head">
+
+          <div class="section-title">
+            <small>🎁 عروضنا</small>
+            <h2>عروض مميزة</h2>
+            <p>اختيارات خاصة لكِ</p>
+          </div>
+
+        </div>
+
+        <div class="offers-grid" id="offersGrid"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= PRODUCTS ================= -->
+
+    <section class="products-section" id="productsSection">
+
+      <div class="section">
+
+        <div class="section-head">
+
+          <div class="section-title">
+
+            <small data-site-name>ROKN EL GAMAL</small>
+
+            <h2>كل المنتجات</h2>
+
+            <p>اختاري المنتج المناسب لكِ واكتشفي تفاصيله.</p>
+
+          </div>
+
+        </div>
+
+
+        <div class="products-grid" id="productsGrid">
+          <div class="loading-skeleton" style="height:400px;border-radius:22px;"></div>
+          <div class="loading-skeleton" style="height:400px;border-radius:22px;"></div>
+          <div class="loading-skeleton" style="height:400px;border-radius:22px;"></div>
+          <div class="loading-skeleton" style="height:400px;border-radius:22px;"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= TIKTOK ================= -->
+
+    <section class="tiktok-section" id="tiktokSection">
+
+      <div class="tiktok-box">
+
+        <div class="tiktok-content">
+
+          <small data-site-name>ROKN EL GAMAL</small>
+
+          <h2>
+            شوفي المنتجات
+            <br>
+            على TikTok
+          </h2>
+
+          <p>
+            تابعي حسابنا لمشاهدة المنتجات والعروض الجديدة،
+            ولإتمام طلبك تواصلي معنا مباشرة عبر TikTok.
+          </p>
+
+        </div>
+
+        <a
+          href="https://www.tiktok.com/"
+          data-social="tiktok"
+          target="_blank"
+          rel="noopener"
+          class="tiktok-button"
+        >
+          <span>♪</span>
+          زيارة حساب TikTok
+          <span>↗</span>
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ================= PRODUCT MODAL ================= -->
+
+  <div class="product-modal-overlay" id="productModal">
+    <div class="product-modal">
+
+      <button class="modal-close" id="modalClose" aria-label="إغلاق">✕</button>
+
+      <div class="modal-image">
+        <img id="modalImage" src="" alt="صورة المنتج">
+      </div>
+
+      <div class="modal-body">
+
+        <span class="modal-category" id="modalCategory">CATEGORY</span>
+
+        <h2 class="modal-title" id="modalTitle">اسم المنتج</h2>
+
+        <p class="modal-desc" id="modalDesc">وصف المنتج</p>
+
+        <span class="modal-features-title">✦ التفاصيل</span>
+
+        <ul class="modal-features" id="modalFeatures"></ul>
+
+        <div class="modal-price-row">
+
+          <div class="modal-price" id="modalPrice">0 ر.س</div>
+
+          <div class="modal-actions">
+            <a
+              href="https://www.tiktok.com/"
+              data-social="tiktok"
+              target="_blank"
+              rel="noopener"
+              class="modal-order-btn"
+            >
+              اطلب عبر TikTok
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer>
+
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+
+        <h3 data-site-name>ROKN EL GAMAL</h3>
+
+        <p id="footerDescription">
+          متجر متخصص في منتجات العناية والجمال،
+          نقدم لكِ اختيارات مميزة وتجربة تسوق بسيطة وأنيقة.
+        </p>
+
+        <div class="footer-social">
+
+          <a
+            href="https://www.tiktok.com/"
+            data-social="tiktok"
+            target="_blank"
+            rel="noopener"
+          >
+            ♪ TikTok
+          </a>
+
+          <a
+            href="#"
+            data-social="instagram"
+            target="_blank"
+            rel="noopener"
+          >
+            📷 Instagram
+          </a>
+
+          <a
+            href="#"
+            data-social="snapchat"
+            target="_blank"
+            rel="noopener"
+          >
+            👻 Snapchat
+          </a>
+
+          <a
+            href="#"
+            data-contact="email"
+          >
+            ✉️ البريد
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="footer-links">
+
+        <a href="#home">الرئيسية</a>
+        <a href="#featured">المميز</a>
+        <a href="#offers">العروض</a>
+        <a href="#products">المنتجات</a>
+
+        <a
+          href="https://www.tiktok.com/"
+          data-social="tiktok"
+          target="_blank"
+          rel="noopener"
+        >
+          TikTok
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom" id="footerCopyright">
+      © 2026 <span data-site-name>ROKN EL GAMAL</span> STORE — جميع الحقوق محفوظة
+    </div>
+
+  </footer>
+
+
+  <script>
+
+    /* =========================
+       SUPABASE
+    ========================== */
+
+    const SUPABASE_URL = "https://jfhnmjtafqkhoghhahxe.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_DyBXJYxvrJr0rODGn8m68Q__sOfM9gd";
+
+    const supabaseClient =
+      window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+    /* =========================
+       STORE STATE
+    ========================== */
+
+    let storeProducts = [];
+    let storeCurrency = "ر.س";
+    let maintenanceActive = false;
+    let animationType = "reveal";
+
+
+    /* =========================
+       SPLASH SCREEN + MUSIC
+    ========================== */
+
+    const splashScreen = document.getElementById("splashScreen");
+    const enterBtn = document.getElementById("enterBtn");
+    const musicToggleBtn = document.getElementById("musicToggle");
+    const storeMusic = document.getElementById("storeMusic");
+
+    async function startMusic() {
+      if (!storeMusic) return;
+
+      try {
+        storeMusic.volume = 0.4;
+        await storeMusic.play();
+
+        musicToggleBtn.classList.add("playing");
+        musicToggleBtn.classList.remove("muted");
+      } catch (error) {
+        console.log("Music blocked:", error);
+      }
+    }
+
+    function stopMusic() {
+      if (!storeMusic) return;
+
+      storeMusic.pause();
+
+      musicToggleBtn.classList.remove("playing");
+      musicToggleBtn.classList.add("muted");
+    }
+
+    enterBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      splashScreen.classList.add("hidden");
+      musicToggleBtn.classList.add("visible");
+      startMusic();
+    });
+
+    musicToggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      if (!storeMusic) return;
+
+      if (storeMusic.paused) {
+        startMusic();
+      } else {
+        stopMusic();
+      }
+    });
+
+
+    /* =========================
+       HEADER SCROLL
+    ========================== */
+
+    const header = document.getElementById("header");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 30) header.classList.add("scrolled");
+      else header.classList.remove("scrolled");
+    });
+
+
+    /* =========================
+       ANIMATION SYSTEM
+    ========================== */
+
+    let animationObserver = null;
+
+    function applyAnimationToElements() {
+      const selector = ".product-card, .featured-card, .offer-card, .trust-item, .hero-card, .tiktok-box, .section-head, .trust";
+
+      document.querySelectorAll(selector).forEach(el => {
+        el.classList.remove("anim-fade", "anim-slide-up", "anim-reveal", "show");
+      });
+
+      if (animationType === "none") return;
+
+      document.querySelectorAll(selector).forEach(el => {
+        el.classList.add(`anim-${animationType}`);
+      });
+    }
+
+    function setupAnimationObserver() {
+      if (animationObserver) {
+        animationObserver.disconnect();
+        animationObserver = null;
+      }
+
+      if (animationType === "none") return;
+
+      animationObserver = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("show");
+              animationObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      document
+        .querySelectorAll(".anim-fade, .anim-slide-up, .anim-reveal")
+        .forEach(el => animationObserver.observe(el));
+    }
+
+    function refreshAnimations() {
+      applyAnimationToElements();
+      setupAnimationObserver();
+    }
+
+
+    /* =========================
+       SMOOTH ANCHOR
+    ========================== */
+
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener("click", event => {
+        const href = link.getAttribute("href");
+        if (href === "#") return;
+
+        const target = document.querySelector(href);
+        if (!target) return;
+
+        event.preventDefault();
+        target.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+
+    /* =========================
+       MOBILE MENU
+    ========================== */
+
+    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+    const mobileDropdown = document.getElementById("mobileDropdown");
+
+    mobileMenuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      mobileDropdown.classList.toggle("open");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!mobileDropdown.contains(e.target) && e.target !== mobileMenuBtn) {
+        mobileDropdown.classList.remove("open");
+      }
+    });
+
+    mobileDropdown.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        mobileDropdown.classList.remove("open");
+      });
+    });
+
+
+    /* =========================
+       TRUST BAR
+    ========================== */
+
+    const trustItems = document.querySelectorAll("[data-trust]");
+
+    trustItems.forEach(item => {
+      item.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const wasActive = item.classList.contains("active");
+        trustItems.forEach(t => t.classList.remove("active"));
+        if (!wasActive) item.classList.add("active");
+      });
+    });
+
+    document.addEventListener("click", () => {
+      trustItems.forEach(t => t.classList.remove("active"));
+    });
+
+
+    /* =========================
+       HELPERS
+    ========================== */
+
+    function escapeStoreHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function formatStorePrice(value) {
+      return Number(value || 0).toLocaleString("en-US", { maximumFractionDigits: 2 });
+    }
+
+    function getProductPriceHTML(product) {
+      const currentPrice = `
+        <strong>
+          ${formatStorePrice(product.price)}
+          ${storeCurrency}
+        </strong>
+      `;
+
+      if (
+        product.discount_enabled === true &&
+        product.old_price != null &&
+        Number(product.old_price) > Number(product.price)
+      ) {
+        return `
+          <div class="price">
+            <del>
+              ${formatStorePrice(product.old_price)}
+              ${storeCurrency}
+            </del>
+            ${currentPrice}
+          </div>
+        `;
+      }
+
+      return `
+        <div class="price">
+          ${currentPrice}
+        </div>
+      `;
+    }
+
+    function getProductImage(product) {
+      return (
+        product.image_url ||
+        "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=900&q=80"
+      );
+    }
+
+
+    /* =========================
+       CREATE FEATURED PRODUCT
+    ========================== */
+
+    function createFeaturedProduct(product) {
+      return `
+        <article class="featured-card" data-product-id="${escapeStoreHtml(product.id)}">
+          <div class="featured-image">
+            <img
+              src="${escapeStoreHtml(getProductImage(product))}"
+              alt="${escapeStoreHtml(product.name)}"
+              loading="lazy"
+            >
+          </div>
+
+          <div class="featured-info">
+            <h3>${escapeStoreHtml(product.name)}</h3>
+            <p>${escapeStoreHtml(product.description || "")}</p>
+
+            <div class="product-bottom">
+              ${getProductPriceHTML(product)}
+              <button class="order-btn" type="button">التفاصيل</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+
+    /* =========================
+       CREATE STORE PRODUCT
+    ========================== */
+
+    function createStoreProduct(product) {
+      return `
+        <article class="product-card" data-product-id="${escapeStoreHtml(product.id)}">
+          <div class="product-image">
+            <img
+              src="${escapeStoreHtml(getProductImage(product))}"
+              alt="${escapeStoreHtml(product.name)}"
+              loading="lazy"
+            >
+          </div>
+
+          <div class="product-info">
+            <span class="product-category">${escapeStoreHtml(product.category || "عناية وجمال")}</span>
+            <h3>${escapeStoreHtml(product.name)}</h3>
+            <p>${escapeStoreHtml(product.description || "")}</p>
+
+            <div class="product-bottom">
+              ${getProductPriceHTML(product)}
+              <button class="order-btn" type="button">التفاصيل</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+
+    /* =========================
+       RENDER STORE PRODUCTS
+    ========================== */
+
+    function renderStoreProducts() {
+      const featuredTrack = document.getElementById("featuredTrack");
+      const productsGrid = document.getElementById("productsGrid");
+
+      if (featuredTrack) {
+        const featuredProducts = storeProducts.filter(product => product.featured === true);
+
+        if (!featuredProducts.length) {
+          featuredTrack.innerHTML = `
+            <div style="padding:30px;text-align:center;width:100%;color:var(--product-description-color);">
+              لا توجد منتجات مميزة حاليًا
+            </div>
+          `;
+        } else {
+          featuredTrack.innerHTML = featuredProducts.map(createFeaturedProduct).join("");
+        }
+      }
+
+      if (productsGrid) {
+        if (!storeProducts.length) {
+          productsGrid.innerHTML = `
+            <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--product-description-color);">
+              لا توجد منتجات حاليًا
+            </div>
+          `;
+        } else {
+          productsGrid.innerHTML = storeProducts.map(createStoreProduct).join("");
+        }
+      }
+
+      attachStoreProductEvents();
+      refreshAnimations();
+    }
+
+
+    /* =========================
+       ATTACH PRODUCT EVENTS
+    ========================== */
+
+    function attachStoreProductEvents() {
+      document.querySelectorAll("[data-product-id]").forEach(card => {
+        if (card.dataset.bound === "true") return;
+        card.dataset.bound = "true";
+
+        card.addEventListener("click", function() {
+          const id = this.dataset.productId;
+          const product = storeProducts.find(p => p.id === id);
+          if (product) openStoreProductModal(product);
+        });
+      });
+    }
+
+
+    /* =========================
+       OPEN PRODUCT MODAL
+    ========================== */
+
+    function openStoreProductModal(product) {
+      const modal = document.getElementById("productModal");
+      if (!modal) return;
+
+      const image = document.getElementById("modalImage");
+      const category = document.getElementById("modalCategory");
+      const title = document.getElementById("modalTitle");
+      const description = document.getElementById("modalDesc");
+      const features = document.getElementById("modalFeatures");
+      const price = document.getElementById("modalPrice");
+
+      if (image) { image.src = getProductImage(product); image.alt = product.name; }
+      if (category) category.textContent = product.category || "عناية وجمال";
+      if (title) title.textContent = product.name;
+      if (description) description.textContent = product.description || "";
+
+      if (features) {
+        const items = Array.isArray(product.features) ? product.features : [];
+        features.innerHTML = items.map(item => `<li>${escapeStoreHtml(item)}</li>`).join("");
+      }
+
+      if (price) price.innerHTML = getProductPriceHTML(product);
+
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeStoreProductModal() {
+      const modal = document.getElementById("productModal");
+      if (!modal) return;
+
+      modal.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    const modalClose = document.getElementById("modalClose");
+    if (modalClose) modalClose.addEventListener("click", closeStoreProductModal);
+
+    const productModalEl = document.getElementById("productModal");
+    if (productModalEl) {
+      productModalEl.addEventListener("click", (e) => {
+        if (e.target === productModalEl) closeStoreProductModal();
+      });
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeStoreProductModal();
+    });
+
+
+    /* =========================
+       LOAD PRODUCTS FROM SUPABASE
+    ========================== */
+
+    async function loadStoreProducts() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("products")
+          .select(`
+            id, name, slug, category, description, features,
+            price, old_price, discount_enabled, image_url,
+            gallery_urls, featured, visible, sort_order
+          `)
+          .eq("visible", true)
+          .order("sort_order", { ascending: true })
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          console.error("Products loading error:", error);
+          renderStoreProductsError();
+          return;
+        }
+
+        storeProducts = data || [];
+        renderStoreProducts();
+
+      } catch (error) {
+        console.error("Store products error:", error);
+        renderStoreProductsError();
+      }
+    }
+
+    function renderStoreProductsError() {
+      const featuredTrack = document.getElementById("featuredTrack");
+      const productsGrid = document.getElementById("productsGrid");
+
+      const errorHTML = `
+        <div style="padding:30px;text-align:center;width:100%;color:#a12d2d;">
+          حدث خطأ أثناء تحميل المنتجات.
+        </div>
+      `;
+
+      if (featuredTrack) featuredTrack.innerHTML = errorHTML;
+      if (productsGrid) productsGrid.innerHTML = errorHTML;
+    }
+
+
+    /* =========================
+       LOAD HERO SETTINGS
+       (Independent from products)
+    ========================== */
+
+    async function loadHeroSettings() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("site_settings")
+          .select(`
+            hero_product_name,
+            hero_product_price,
+            hero_product_image,
+            hero_product_label,
+            hero_badge_enabled,
+            hero_badge_text,
+            hero_heart_enabled
+          `)
+          .limit(1)
+          .single();
+
+        if (error) {
+          console.warn("Hero settings not available:", error.message);
+          return;
+        }
+
+        const heroImage = document.getElementById("heroProductImage");
+        const heroName = document.getElementById("heroProductName");
+        const heroPrice = document.getElementById("heroProductPrice");
+        const heroLabel = document.getElementById("heroProductLabel");
+        const heroBadge = document.getElementById("heroFloatingBadge");
+        const heroHeart = document.getElementById("heroFloatingHeart");
+
+        if (heroName && data.hero_product_name) {
+          heroName.textContent = data.hero_product_name;
+        }
+
+        if (heroImage && data.hero_product_image) {
+          heroImage.src = data.hero_product_image;
+          heroImage.alt = data.hero_product_name || "Hero";
+        }
+
+        if (heroPrice && data.hero_product_price != null) {
+          heroPrice.innerHTML = `
+            <strong>
+              ${Number(data.hero_product_price).toLocaleString("en-US", { maximumFractionDigits: 2 })}
+              ${storeCurrency}
+            </strong>
+          `;
+        }
+
+        if (heroLabel && data.hero_product_label) {
+          heroLabel.textContent = data.hero_product_label;
+        }
+
+        if (heroBadge) {
+          heroBadge.style.display = data.hero_badge_enabled === false ? "none" : "";
+          if (data.hero_badge_text) {
+            heroBadge.textContent = data.hero_badge_text;
+          }
+        }
+
+        if (heroHeart) {
+          heroHeart.style.display = data.hero_heart_enabled === false ? "none" : "";
+        }
+
+      } catch (error) {
+        console.warn("Hero settings error:", error);
+      }
+    }
+
+
+    /* =========================
+       LOAD OFFERS
+    ========================== */
+
+    async function loadOffers() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("offers")
+          .select(`
+            id, title, description, price,
+            image_url, sort_order
+          `)
+          .eq("visible", true)
+          .order("sort_order", { ascending: true })
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        const section = document.getElementById("offersSection");
+        const grid = document.getElementById("offersGrid");
+
+        if (!section || !grid) return;
+
+        if (!data || data.length === 0) {
+          section.style.display = "none";
+          return;
+        }
+
+        section.style.display = "";
+
+        grid.innerHTML = data.map(offer => `
+          <article class="offer-card">
+            ${offer.image_url
+              ? `<div class="offer-image">
+                  <img src="${escapeStoreHtml(offer.image_url)}" alt="${escapeStoreHtml(offer.title)}" loading="lazy">
+                </div>`
+              : ""
+            }
+
+            <div class="offer-info">
+              <h3>${escapeStoreHtml(offer.title)}</h3>
+              ${offer.description ? `<p>${escapeStoreHtml(offer.description)}</p>` : ""}
+              <div class="offer-price">
+                ${Number(offer.price || 0).toLocaleString("en-US")} ${storeCurrency}
+              </div>
+            </div>
+          </article>
+        `).join("");
+
+        refreshAnimations();
+
+      } catch (error) {
+        console.error("Offers Error:", error);
+      }
+    }
+
+
+    /* =========================
+       ANNOUNCEMENT BAR
+    ========================== */
+
+    const announcementBar = document.getElementById("announcementBar");
+    const announcementTrack = document.getElementById("announcementTrack");
+    const headerEl = document.getElementById("header");
+
+    function updateAnnouncementPosition() {
+      if (!announcementBar || !headerEl) return;
+      if (announcementBar.style.display === "none") return;
+
+      const headerBottom = headerEl.getBoundingClientRect().bottom;
+      announcementBar.style.top = `${headerBottom}px`;
+    }
+
+
+    async function loadAnnouncementBar() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("site_settings")
+          .select(`
+            announcement_enabled,
+            announcement_text,
+            announcement_speed,
+            announcement_background_color,
+            announcement_text_color
+          `)
+          .limit(1)
+          .single();
+
+        if (error) throw error;
+
+        if (!announcementBar || !announcementTrack) return;
+
+        const announcementText = (data.announcement_text || "").trim();
+
+        if (data.announcement_enabled !== true || !announcementText) {
+          announcementBar.style.display = "none";
+          document.body.classList.add("no-announcement");
+          return;
+        }
+
+        document.body.classList.remove("no-announcement");
+        announcementBar.style.display = "flex";
+
+        announcementBar.style.setProperty(
+          "--announcement-bg",
+          data.announcement_background_color || "#d96b91"
+        );
+        announcementBar.style.setProperty(
+          "--announcement-text",
+          data.announcement_text_color || "#ffffff"
+        );
+
+        const textSafe = escapeStoreHtml(announcementText);
+        const itemHTML = `<span class="announcement-item">✦ ${textSafe}</span>`;
+
+        announcementTrack.innerHTML = `<span class="announcement-segment">${itemHTML}</span>`;
+        const singleItem = announcementTrack.querySelector(".announcement-item");
+        const itemWidth = singleItem ? singleItem.getBoundingClientRect().width : 200;
+
+        const screenWidth = window.innerWidth || 1200;
+        let repeatsPerSegment = Math.ceil((screenWidth * 1.5) / Math.max(itemWidth, 1));
+        repeatsPerSegment = Math.max(4, Math.min(40, repeatsPerSegment));
+
+        const segmentContent = Array(repeatsPerSegment).fill(itemHTML).join("");
+        const segmentHTML = `<span class="announcement-segment">${segmentContent}</span>`;
+
+        announcementTrack.innerHTML = segmentHTML + segmentHTML;
+
+        announcementTrack.style.animation = "none";
+        void announcementTrack.offsetWidth;
+
+        const speed = Math.max(8, Number(data.announcement_speed || 25));
+        announcementTrack.style.setProperty("--announcement-speed", `${speed}s`);
+        announcementTrack.style.animation = "";
+
+        updateAnnouncementPosition();
+
+      } catch (error) {
+        console.error("Announcement Error:", error);
+      }
+    }
+
+    window.addEventListener("scroll", updateAnnouncementPosition);
+
+    let resizeTimeout = null;
+
+    window.addEventListener("resize", () => {
+
+      clearTimeout(resizeTimeout);
+
+      resizeTimeout = setTimeout(() => {
+
+        updateAnnouncementPosition();
+
+        if (announcementBar && announcementBar.style.display !== "none") {
+          loadAnnouncementBar();
+        }
+
+      }, 250);
+    });
+
+
+    /* =========================
+       BRAND SETTINGS
+    ========================== */
+
+    async function loadBrandSettings() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("site_settings")
+          .select(`site_name, logo_url, favicon_url`)
+          .limit(1)
+          .single();
+
+        if (error) throw error;
+
+        if (data.site_name) {
+          document.querySelectorAll("[data-site-name]").forEach(el => {
+            el.textContent = data.site_name;
+          });
+        }
+
+        if (data.logo_url) {
+          document.querySelectorAll("[data-site-logo]").forEach(img => {
+            img.src = data.logo_url;
+            img.style.display = "block";
+          });
+
+          const navLetter = document.getElementById("navLogoLetter");
+          if (navLetter) navLetter.style.display = "none";
+
+          const splashLogo = document.getElementById("splashLogo");
+          if (splashLogo) {
+            splashLogo.innerHTML = `<img src="${escapeStoreHtml(data.logo_url)}" alt="Logo">`;
+          }
+        }
+
+        if (data.favicon_url) applyFavicon(data.favicon_url);
+
+      } catch (error) { /* ignore */ }
+    }
+
+
+    function applyFavicon(url) {
+      if (!url) return;
+
+      document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]')
+        .forEach(link => link.remove());
+
+      const favicon = document.createElement("link");
+      favicon.rel = "icon";
+      favicon.type = "image/png";
+      favicon.href = url + "?v=" + Date.now();
+      document.head.appendChild(favicon);
+
+      const appleIcon = document.createElement("link");
+      appleIcon.rel = "apple-touch-icon";
+      appleIcon.href = url + "?v=" + Date.now();
+      document.head.appendChild(appleIcon);
+    }
+
+
+    /* =========================
+       SOCIAL SETTINGS
+    ========================== */
+
+    async function loadSocialSettings() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("site_settings")
+          .select(`tiktok_url`)
+          .limit(1)
+          .single();
+
+        if (error) throw error;
+
+        if (data.tiktok_url) {
+          document.querySelectorAll('[data-social="tiktok"]').forEach(link => {
+            link.href = data.tiktok_url;
+            link.target = "_blank";
+            link.rel = "noopener";
+          });
+        }
+      } catch (error) { /* ignore */ }
+    }
+
+
+    /* =========================
+       DESIGN SETTINGS
+    ========================== */
+
+    async function loadDesignSettings() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("site_settings")
+          .select(`
+            primary_color, primary_dark_color, background_color, card_color,
+            heading_color, body_text_color, product_description_color, product_details_color,
+            product_price_color, product_old_price_color,
+            button_color, button_text_color,
+            label_color, border_color,
+            font_family, base_font_size, product_title_font_size
+          `)
+          .limit(1)
+          .single();
+
+        if (error) throw error;
+
+        const root = document.documentElement;
+
+        const setVar = (name, value) => {
+          if (value) root.style.setProperty(name, value);
+        };
+
+        setVar("--pink", data.primary_color);
+        setVar("--pink-dark", data.primary_dark_color);
+        setVar("--cream", data.background_color);
+        setVar("--white", data.card_color);
+        setVar("--text", data.body_text_color);
+        setVar("--heading-color", data.heading_color);
+        setVar("--product-description-color", data.product_description_color);
+        setVar("--product-details-color", data.product_details_color);
+        setVar("--product-price-color", data.product_price_color);
+        setVar("--product-old-price-color", data.product_old_price_color);
+        setVar("--button-color", data.button_color);
+        setVar("--button-text-color", data.button_text_color);
+        setVar("--label-color", data.label_color);
+        setVar("--border", data.border_color);
+
+        if (data.font_family) {
+          const fontFamily = `"${data.font_family}", sans-serif`;
+          root.style.setProperty("--font-family", fontFamily);
+          document.body.style.fontFamily = fontFamily;
+        }
+
+        if (data.base_font_size) {
+          root.style.setProperty("--base-font-size", `${data.base_font_size}px`);
+          document.documentElement.style.fontSize = `${data.base_font_size}px`;
+        }
+
+        if (data.product_title_font_size) {
+          root.style.setProperty("--product-title-size", `${data.product_title_font_size}px`);
+        }
+
+      } catch (error) { /* ignore */ }
+    }
+
+
+    /* =========================
+       DARK MODE
+    ========================== */
+
+    async function loadDarkMode() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("site_settings")
+          .select("dark_mode")
+          .limit(1)
+          .single();
+
+        if (error) throw error;
+
+        document.body.classList.toggle(
+          "dark-mode",
+          data.dark_mode === true
+        );
+      } catch (error) { /* ignore */ }
+    }
+
+
+    /* =========================
+       SECTIONS VISIBILITY
+    ========================== */
+
+    function toggleSection(id, visible) {
+      const section = document.getElementById(id);
+      if (!section) return;
+      section.style.display = visible ? "" : "none";
+    }
+
+    async function loadSectionsVisibility() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("site_settings")
+          .select(`
+            show_hero, show_featured, show_products,
+            show_tiktok_section, show_trust_bar
+          `)
+          .limit(1)
+          .single();
+
+        if (error) throw error;
+
+        toggleSection("heroSection", data.show_hero !== false);
+        toggleSection("featuredSection", data.show_featured !== false);
+        toggleSection("productsSection", data.show_products !== false);
+        toggleSection("tiktokSection", data.show_tiktok_section !== false);
+        toggleSection("trustSection", data.show_trust_bar !== false);
+      } catch (error) { /* ignore */ }
+    }
+
+
+    /* =========================
+       ANIMATION SETTINGS
+    ========================== */
+
+    async function loadAnimationSettings() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("site_settings")
+          .select(`animations_enabled, animation_type, animation_speed`)
+          .limit(1)
+          .single();
+
+        if (error) throw error;
+
+        document.body.classList.remove(
+          "animations-disabled", "anim-slow", "anim-fast"
+        );
+
+        if (data.animations_enabled === false) {
+          document.body.classList.add("animations-disabled");
+          animationType = "none";
+          return;
+        }
+
+        if (data.animation_speed === "slow") {
+          document.body.classList.add("anim-slow");
+        }
+
+        if (data.animation_speed === "fast") {
+          document.body.classList.add("anim-fast");
+        }
+
+        animationType = data.animation_type || "reveal";
+        refreshAnimations();
+
+      } catch (error) { /* ignore */ }
+    }
+
+
+    /* =========================
+       SEO SETTINGS
+    ========================== */
+
+    async function loadSEOSettings() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("site_settings")
+          .select(`seo_title, seo_description, logo_url, site_name`)
+          .limit(1)
+          .single();
+
+        if (error) throw error;
+
+        if (data.seo_title) {
+          document.title = data.seo_title;
+          const ogTitle = document.getElementById("ogTitle");
+          if (ogTitle) ogTitle.setAttribute("content", data.seo_title);
+        } else if (data.site_name) {
+          document.title = data.site_name;
+        }
+
+        if (data.seo_description) {
+          const desc = document.getElementById("seoDescription");
+          if (desc) desc.setAttribute("content", data.seo_description);
+
+          const ogDesc = document.getElementById("ogDescription");
+          if (ogDesc) ogDesc.setAttribute("content", data.seo_description);
+        }
+
+        if (data.logo_url) {
+          const ogImage = document.getElementById("ogImage");
+          if (ogImage) ogImage.setAttribute("content", data.logo_url);
+        }
+
+      } catch (error) { /* ignore */ }
+    }
+
+
+    /* =========================
+       TRUST BAR SETTINGS
+    ========================== */
+
+    async function loadTrustSettings() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("site_settings")
+          .select(`
+            trust_1_icon, trust_1_title, trust_1_text,
+            trust_2_icon, trust_2_title, trust_2_text,
+            trust_3_icon, trust_3_title, trust_3_text
+          `)
+          .limit(1)
+          .single();
+
+        if (error) throw error;
+
+        const elements = {
+          trust1Icon: data.trust_1_icon,
+          trust1Title: data.trust_1_title,
+          trust1Text: data.trust_1_text,
+          trust2Icon: data.trust_2_icon,
+          trust2Title: data.trust_2_title,
+          trust2Text: data.trust_2_text,
+          trust3Icon: data.trust_3_icon,
+          trust3Title: data.trust_3_title,
+          trust3Text: data.trust_3_text
+        };
+
+        Object.entries(elements).forEach(([id, value]) => {
+          const el = document.getElementById(id);
+          if (el && value) el.textContent = value;
+        });
+
+      } catch (error) { /* ignore */ }
+    }
+
+
+    /* =========================
+       FOOTER SETTINGS
+    ========================== */
+
+    async function loadFooterSettings() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("site_settings")
+          .select(`
+            footer_description, footer_copyright,
+            instagram_url, snapchat_url, footer_email, tiktok_url
+          `)
+          .limit(1)
+          .single();
+
+        if (error) throw error;
+
+        const description = document.getElementById("footerDescription");
+        if (description) {
+          description.textContent = data.footer_description || "";
+        }
+
+        const copyright = document.getElementById("footerCopyright");
+        if (copyright) {
+          copyright.innerHTML =
+            data.footer_copyright ||
+            '© 2026 <span data-site-name>ROKN EL GAMAL</span> STORE — جميع الحقوق محفوظة';
+        }
+
+        document.querySelectorAll('[data-social="instagram"]').forEach(el => {
+          el.href = data.instagram_url || "#";
+        });
+
+        document.querySelectorAll('[data-social="snapchat"]').forEach(el => {
+          el.href = data.snapchat_url || "#";
+        });
+
+        document.querySelectorAll('[data-social="tiktok"]').forEach(el => {
+          el.href = data.tiktok_url || "#";
+        });
+
+        document.querySelectorAll('[data-contact="email"]').forEach(el => {
+          el.href = data.footer_email ? `mailto:${data.footer_email}` : "#";
+        });
+
+      } catch (error) { /* ignore */ }
+    }
+
+
+    /* =========================
+       MAINTENANCE MODE
+    ========================== */
+
+    async function checkMaintenanceMode() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("site_settings")
+          .select("maintenance_mode")
+          .limit(1)
+          .single();
+
+        if (error) throw error;
+
+        if (data.maintenance_mode === true) {
+          maintenanceActive = true;
+
+          document.getElementById("maintenancePage")?.classList.add("active");
+          document.body.style.overflow = "hidden";
+          document.getElementById("musicToggle")?.classList.remove("visible");
+        }
+      } catch (error) { /* ignore */ }
+    }
+
+
+    /* =========================
+       INITIALIZE STORE
+    ========================== */
+
+    async function initializeStore() {
+      try {
+
+        await Promise.all([
+          loadBrandSettings(),
+          loadSocialSettings(),
+          loadDesignSettings(),
+          loadDarkMode(),
+          loadSectionsVisibility(),
+          loadTrustSettings(),
+          loadFooterSettings(),
+          loadAnimationSettings(),
+          loadSEOSettings(),
+          loadAnnouncementBar(),
+          loadHeroSettings(),
+          checkMaintenanceMode()
+        ]);
+
+        if (maintenanceActive) {
+          hideSiteLoader();
+          return;
+        }
+
+        await Promise.all([
+          loadStoreProducts(),
+          loadOffers()
+        ]);
+
+      } catch (error) {
+        console.error("Store initialization error:", error);
+      } finally {
+        hideSiteLoader();
+        setTimeout(updateAnnouncementPosition, 300);
+        setTimeout(updateAnnouncementPosition, 1000);
+      }
+    }
+
+
+    function hideSiteLoader() {
+      const loader = document.getElementById("siteLoader");
+
+      setTimeout(() => {
+        loader?.classList.add("hidden");
+
+        setTimeout(() => {
+          loader?.remove();
+        }, 350);
+      }, 100);
+    }
+
+
+    /* =========================
+       START
+    ========================== */
+
+    document.addEventListener("DOMContentLoaded", initializeStore);
+
+  </script>
+
+</body>
+</html>
